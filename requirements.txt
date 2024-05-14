@@ -1,4 +1,4 @@
-conda create -name consulting-bot python=3.11
+conda create -n consulting-bot python=3.11
 pip install PyPDF2
 pip install langchain
 pip install pyautogen
