@@ -1,7 +1,4 @@
 import streamlit as st
-import PyPDF2
-import langchain
-import pyautogen
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -11,7 +8,6 @@ from langchain_community.chat_models import ChatOpenAI
 import asyncio
 from autogen import AssistantAgent, UserProxyAgent
 
-OPENAI_API_KEY = "sk-proj-qy2CzGgB1hTiiwEkbUM6T3BlbkFJNH6tGNv8sOJft2LftHQW"
 
 #Upload PDF file
 
@@ -36,6 +32,11 @@ with st.sidebar:
     st.title("Your documents")
     file = st.file_uploader("Upload a PDF file and start asking your questions", type="pdf")
 
+with st.sidebar:
+    st.header("OpenAI Configuration")
+    selected_model = st.selectbox("Model", ['gpt-3.5-turbo', 'gpt-4'], index=1)
+    selected_key = st.text_input("API Key", type="password")
+
 #Extract the text
 
 if file is not None:
@@ -59,7 +60,7 @@ if file is not None:
 
     # Generate embeddings
 
-    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(openai_api_key=selected_key)
 
     # Create vector db
 
@@ -74,10 +75,10 @@ if file is not None:
 
         # define the LLM
         llm = ChatOpenAI(
-            openai_api_key=OPENAI_API_KEY,
+            openai_api_key=selected_key,
             temperature=0,
             max_tokens=1000,
-            model_name="gpt-3.5-turbo"
+            model_name=selected_model
         )
 
         # output results
@@ -86,13 +87,18 @@ if file is not None:
         response = chain.run(input_documents=match, question=user_question)
         st.write(response)
 
+        # file_path = "C:/Users/Gauranga/Desktop/Consulting sample.xlsx"
+        # workbook = openpyxl.load_workbook(file_path)
+        # sheet = workbook.active
+        # sheet['B2'] = response
+
         llm_config = {
             "timeout": 600,
             "seed": 42,
             "config_list": [
                 {
-                    "model": 'gpt-4',
-                    "api_key": 'sk-proj-qy2CzGgB1hTiiwEkbUM6T3BlbkFJNH6tGNv8sOJft2LftHQW'
+                    "model": selected_model,
+                    "api_key": selected_key
                 }
             ]
         }
@@ -102,7 +108,7 @@ if file is not None:
 
         # create a UserProxyAgent instance named "user"
         user_proxy = TrackableUserProxyAgent(
-            name="user", human_input_mode="NEVER ", llm_config=llm_config)
+            name="user", human_input_mode="NEVER", llm_config=llm_config)
 
         # Create an event loop
         loop = asyncio.new_event_loop()
