@@ -7,6 +7,7 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain_community.chat_models import ChatOpenAI
 import asyncio
 from autogen import AssistantAgent, UserProxyAgent
+import openpyxl
 
 #Upload PDF file
 
