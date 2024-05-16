@@ -8,7 +8,6 @@ from langchain_community.chat_models import ChatOpenAI
 import asyncio
 from autogen import AssistantAgent, UserProxyAgent
 
-
 #Upload PDF file
 
 st.header("My first chatbot")
@@ -29,13 +28,13 @@ class TrackableUserProxyAgent(UserProxyAgent):
 
 
 with st.sidebar:
-    st.title("Your documents")
-    file = st.file_uploader("Upload a PDF file and start asking your questions", type="pdf")
-
-with st.sidebar:
     st.header("OpenAI Configuration")
     selected_model = st.selectbox("Model", ['gpt-3.5-turbo', 'gpt-4'], index=1)
     selected_key = st.text_input("API Key", type="password")
+
+with st.sidebar:
+    st.title("Your documents")
+    file = st.file_uploader("Upload a PDF file and start asking your questions", type="pdf")
 
 #Extract the text
 
