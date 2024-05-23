@@ -4,7 +4,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains.question_answering import load_qa_chain
-from langchain-community.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 import asyncio
 from autogen import AssistantAgent, UserProxyAgent
 import openpyxl
