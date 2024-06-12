@@ -92,36 +92,36 @@ if file is not None:
         # sheet = workbook.active
         # sheet['B2'] = response
 
-        llm_config = {
-            "timeout": 600,
-            "seed": 42,
-            "config_list": [
-                {
-                    "model": selected_model,
-                    "api_key": selected_key
-                }
-            ]
-        }
-        # create an AssistantAgent instance named "assistant"
-        assistant = TrackableAssistantAgent(
-            name="assistant", llm_config=llm_config, code_execution_config={"use_docker": False})
+        # llm_config = {
+        #     "timeout": 600,
+        #     "seed": 42,
+        #     "config_list": [
+        #         {
+        #             "model": selected_model,
+        #             "api_key": selected_key
+        #         }
+        #     ]
+        # }
+        # # create an AssistantAgent instance named "assistant"
+        # assistant = TrackableAssistantAgent(
+        #     name="assistant", llm_config=llm_config, code_execution_config={"use_docker": False})
 
-        # create a UserProxyAgent instance named "user"
-        user_proxy = TrackableUserProxyAgent(
-            name="user", human_input_mode="NEVER", llm_config=llm_config)
+        # # create a UserProxyAgent instance named "user"
+        # user_proxy = TrackableUserProxyAgent(
+        #     name="user", human_input_mode="NEVER", llm_config=llm_config)
 
-        # Create an event loop
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-
-
-        # Define an asynchronous function
-        async def initiate_chat():
-            await user_proxy.a_initiate_chat(
-                assistant,
-                message=response,
-            )
+        # # Create an event loop
+        # loop = asyncio.new_event_loop()
+        # asyncio.set_event_loop(loop)
 
 
-        # Run the asynchronous function within the event loop
-        loop.run_until_complete(initiate_chat())
+        # # Define an asynchronous function
+        # async def initiate_chat():
+        #     await user_proxy.a_initiate_chat(
+        #         assistant,
+        #         message=response,
+        #     )
+
+
+        # # Run the asynchronous function within the event loop
+        # loop.run_until_complete(initiate_chat())
